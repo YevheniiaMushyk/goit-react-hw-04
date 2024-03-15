@@ -3,12 +3,12 @@ import css from "./ImageGallery.module.css";
 
 const ImageGallery = ({ imageGallery }) => {
 	return (
-		<ul>
-			{imageGallery !== null &&
+		<ul className={css.galleryList}>
+			{imageGallery &&
 				Array.isArray(imageGallery) &&
 				imageGallery.map((image) => {
 					return (
-						<li key={image.id}>
+						<li className={css.galleryItem} key={image.id}>
 							<ImageCard image={image} />
 						</li>
 					);

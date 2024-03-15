@@ -3,10 +3,9 @@
 	line-height: 1.5;
 	font-weight: 400;
 
-	/* color-scheme: light dark;
+	/* color-scheme: light dark; */
 	color: rgba(255, 255, 255, 0.87);
-	background-color: #242424; */
-
+	background: linear-gradient(135deg, #ebd9b4 0%, #f9efdb 31%, #ebd9b4 75%, #ebd9b4 75%, #f9efdb 100%);
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
@@ -34,7 +33,7 @@ button {
 img {
 	display: block;
 	max-width: 100%;
-	/* height: auto; */
+	height: auto;
 	object-fit: cover;
 }
 textarea {
@@ -61,9 +60,6 @@ textarea:focus {
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	place-items: center;
 	min-width: 320px;
 	min-height: 100vh;
 }
@@ -74,21 +70,17 @@ h1 {
 }
 
 button {
-	display: inline-block;
+	display: block;
 	/* border-radius: 8px;
 	border: 2px solid #1a1a1a; */
-	padding: 0.6em 0.6em;
-	font-size: 1.3em;
-	font-weight: 500;
+	/* padding: 0.6em 0.6em; */
+	font-size: 1.5em;
+	font-weight: 600;
 	font-family: inherit;
-	line-height: 1.5;
+	/* line-height: 1.5; */
 	background-color: transparent;
-	transition: 0.25s;
+	transition: transform 250ms ease-in-out;
 }
 button:hover {
 	transform: scale(1.1);
-}
-button:focus,
-button:focus-visible {
-	outline: 4px auto -webkit-focus-ring-color;
 }

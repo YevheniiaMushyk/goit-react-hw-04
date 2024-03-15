@@ -1,0 +1,15 @@
+.loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 1em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.text {
+	font-size: 1.5em;
+	color: #9dbc98;
+}

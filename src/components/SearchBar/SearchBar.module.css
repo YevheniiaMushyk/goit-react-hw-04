@@ -1,0 +1,32 @@
+.header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #9dbc98;
+	padding: 0.6em;
+}
+
+.form {
+	position: relative;
+	padding: 0.6em;
+}
+
+.input {
+	padding: 0.6em 0.6em 0.6em 3em;
+	background-color: #f9efdb;
+	border: 1px solid #9dbc98;
+	border-radius: 5px;
+	min-width: 320px;
+	font-size: 16px;
+}
+
+.input:focus,
+.input:hover {
+	border: 1px solid #638889;
+}
+
+.button {
+	position: absolute;
+	top: 26%;
+	left: 5%;
+}

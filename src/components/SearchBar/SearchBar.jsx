@@ -10,8 +10,9 @@ const SearchBar = ({ onSetSearchQuery }) => {
 			toast.error("Enter a search query", {
 				style: {
 					border: "1px solid #ff204e",
-					padding: "16px",
+					padding: "16px 20px",
 					color: "#ff204e",
+					// background-color: "#f9efdb",
 				},
 				iconTheme: {
 					primary: "#ff204e",
@@ -29,12 +30,13 @@ const SearchBar = ({ onSetSearchQuery }) => {
 		form.reset();
 	};
 	return (
-		<header>
-			<form onSubmit={handleSubmit}>
-				<input type="text" autoComplete="off" name="inputValue" autoFocus placeholder="Search images and photos" />
-				<button type="submit">
+		<header className={css.header}>
+			<form className={css.form} onSubmit={handleSubmit}>
+				<button className={css.button} type="submit">
 					<CiSearch />
 				</button>
+				<input className={css.input} type="text" autoComplete="off" name="inputValue" autoFocus placeholder="Search images and photos" />
+
 				<Toaster position="top-center" reverseOrder={true} />
 			</form>
 		</header>

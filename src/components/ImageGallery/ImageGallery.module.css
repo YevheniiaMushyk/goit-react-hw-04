@@ -1,0 +1,15 @@
+.galleryList {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 1em;
+	padding: 1em;
+}
+
+.galleryItem {
+	flex: 0 0 calc((100% - 3em) / 4);
+	border-radius: 1em;
+	/* border: 1px solid #638889; */
+	overflow: hidden;
+}

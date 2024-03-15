@@ -1,0 +1,14 @@
+.loadMoreBtn {
+	display: block;
+	margin: 0 auto;
+	background-color: #9dbc98;
+	padding: 0.6em 1em;
+	border-radius: 0.6em;
+	color: #f9efdb;
+	border: 1px solid #9dbc98;
+	transition: border-color 250ms ease-in-out;
+}
+
+.loadMoreBtn:hover {
+	border-color: #638889;
+}
