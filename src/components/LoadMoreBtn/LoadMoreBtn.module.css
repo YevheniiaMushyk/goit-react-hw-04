@@ -7,6 +7,7 @@
 	color: #f9efdb;
 	border: 1px solid #9dbc98;
 	transition: border-color 250ms ease-in-out;
+	margin-bottom: 1em;
 }
 
 .loadMoreBtn:hover {

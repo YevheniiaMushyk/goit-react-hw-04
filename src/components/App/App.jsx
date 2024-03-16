@@ -17,30 +17,53 @@ const App = () => {
 	const [isLoadMore, setIsLoadMore] = useState(false);
 	const [imageGallery, setImageGallery] = useState([]);
 	const [errorMessage, setErrorMessage] = useState("");
+	const [queryPage, setQueryPage] = useState(1);
+	const [currentQuery, setCurrentQuery] = useState("");
+	const [totalPages, setTotalPages] = useState(0);
+	const perPage = 28;
 
 	useEffect(() => {
 		if (!searchQuery) return;
 		async function fetchImages() {
 			try {
-				setImageGallery([]);
 				setIsError(false);
 				setIsLoading(true);
-				const data = await axios.get("photos", { params: { client_id: ACCESS_KEY, query: searchQuery } });
-				setImageGallery(data.data.results);
+				setIsLoadMore(false);
+				if (currentQuery !== searchQuery) {
+					setImageGallery([]);
+					setQueryPage(1);
+				}
+				const data = await axios.get("photos", {
+					params: { client_id: ACCESS_KEY, query: searchQuery, page: queryPage, per_page: perPage, orientation: "squarish" },
+				});
+				setImageGallery((prevGallery) => [...prevGallery, ...data.data.results]);
+				setTotalPages(data.data.total_pages);
+
+				if (data.data.total <= 0) {
+					setIsError(true);
+					setErrorMessage("Sorry, there are no images matching your search query. Please try again!");
+				}
 			} catch (err) {
 				setIsError(true);
 				setErrorMessage(err);
 			} finally {
 				setIsLoading(false);
-				setIsLoadMore(true);
+				if (queryPage <= totalPages) {
+					setIsLoadMore(true);
+				}
 			}
 		}
 
 		fetchImages();
-	}, [searchQuery]);
+	}, [searchQuery, queryPage, currentQuery, perPage, totalPages]);
 
 	const onSetSearchQuery = (query) => {
 		setSearchQuery(query);
+		setCurrentQuery(query);
+	};
+
+	const handleLoadMore = () => {
+		setQueryPage((prevPage) => prevPage + 1);
 	};
 
 	return (
@@ -49,7 +72,7 @@ const App = () => {
 			{isLoading && <Loader />}
 			{!isError ? <ImageGallery imageGallery={imageGallery} /> : <ErrorMessage message={errorMessage} />}
 			{/* <ImageModal imageGallery={imageGallery} /> */}
-			{isLoadMore && <LoadMoreBtn />}
+			{isLoadMore && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
 		</>
 	);
 };
