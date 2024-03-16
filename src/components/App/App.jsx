@@ -1,14 +1,26 @@
 import { useEffect, useState } from "react";
+import Modal from "react-modal";
 import axios from "axios";
 import ImageGallery from "../ImageGallery/ImageGallery";
 import Loader from "../Loader/Loader";
 import SearchBar from "../SearchBar/SearchBar";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-// import ImageModal from "../ImageModal/ImageModal";
+import ImageModal from "../ImageModal/ImageModal";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 
 axios.defaults.baseURL = "https://api.unsplash.com/search/";
 const ACCESS_KEY = "6ISQi9M4rNBkl7LU8EVOjyrOACzSzwqNAvY8Ysl6IZo";
+Modal.setAppElement("#root");
+const customStyles = {
+	content: {
+		top: "50%",
+		left: "50%",
+		right: "auto",
+		bottom: "auto",
+		marginRight: "-50%",
+		transform: "translate(-50%, -50%)",
+	},
+};
 
 const App = () => {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -20,6 +32,8 @@ const App = () => {
 	const [queryPage, setQueryPage] = useState(1);
 	const [currentQuery, setCurrentQuery] = useState("");
 	const [totalPages, setTotalPages] = useState(0);
+	const [modalIsOpen, setIsOpen] = useState(false);
+	const [selectedImage, setSelectedImage] = useState(null);
 	const perPage = 28;
 
 	useEffect(() => {
@@ -66,12 +80,23 @@ const App = () => {
 		setQueryPage((prevPage) => prevPage + 1);
 	};
 
+	function openModal(image) {
+		setIsOpen(true);
+		setSelectedImage(image);
+	}
+
+	function closeModal() {
+		setIsOpen(false);
+	}
+
 	return (
 		<>
 			<SearchBar onSetSearchQuery={onSetSearchQuery} />
 			{isLoading && <Loader />}
-			{!isError ? <ImageGallery imageGallery={imageGallery} /> : <ErrorMessage message={errorMessage} />}
-			{/* <ImageModal imageGallery={imageGallery} /> */}
+			{!isError ? <ImageGallery imageGallery={imageGallery} openModal={openModal} /> : <ErrorMessage message={errorMessage} />}
+			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
+				{modalIsOpen && <ImageModal image={selectedImage} />}
+			</Modal>
 			{isLoadMore && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
 		</>
 	);
