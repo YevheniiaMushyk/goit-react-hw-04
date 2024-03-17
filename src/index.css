@@ -30,12 +30,12 @@ ul {
 button {
 	cursor: pointer;
 }
-img {
+/* img {
 	display: block;
 	max-width: 100%;
-	height: auto;
-	object-fit: cover;
-}
+	height: 100%;
+	object-fit: contain;
+} */
 textarea {
 	display: block;
 	resize: none;

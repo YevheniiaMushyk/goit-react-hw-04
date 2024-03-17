@@ -1,22 +1,13 @@
-/* .galleryLink {
-	display: block;
-}
-
-.infoList {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-}
-
-.itemTitle {
-	font-weight: 700;
-}
-
-.css.infoItem {
-	font-family: inherit;
-}
-
-.itemContent {
+.imageContainer {
 	display: flex;
 	justify-content: center;
-} */
+	align-items: center;
+	height: 342px;
+	overflow: hidden;
+}
+.image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}

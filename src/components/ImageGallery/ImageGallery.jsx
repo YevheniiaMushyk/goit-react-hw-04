@@ -6,9 +6,9 @@ const ImageGallery = ({ imageGallery, openModal }) => {
 		<ul className={css.galleryList}>
 			{imageGallery &&
 				Array.isArray(imageGallery) &&
-				imageGallery.map((image) => {
+				imageGallery.map((image, index) => {
 					return (
-						<li className={css.galleryItem} key={image.id} onClick={() => openModal(image)}>
+						<li className={css.galleryItem} key={`${image.id}_${index}`} onClick={() => openModal(image)}>
 							<ImageCard image={image} />
 						</li>
 					);

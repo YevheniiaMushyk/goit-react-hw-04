@@ -1,27 +1,29 @@
 import css from ".//ImageModal.module.css";
 
 const ImageModal = ({ image }) => {
-	console.log(image);
+	const dateString = image.created_at;
+	const date = new Date(dateString);
+	const formattedDate = date.toLocaleDateString();
 	return (
-		<div>
-			<img src={image.urls.regular} alt={image.alt_description} />
-			<ul className={css.infoList}>
-				<li className={css.infoItem}>
-					<h className={css.itemTitle}>Description</h>
-					<p className={css.itemContent}>{image.alt_description}</p>
+		<div className={css.modalContainer}>
+			<img className={css.modalImg} src={image.urls.regular} alt={image.alt_description} />
+			<ul className={css.modalList}>
+				<li className={css.modalItem}>
+					<p className={css.modalTitle}>Description</p>
+					<p className={css.modalContent}>{image.alt_description}</p>
 				</li>
 
-				<li className={css.infoItem}>
-					<h className={css.itemTitle}>Author</h>
-					<p className={css.itemContent}>{image.username}</p>
+				<li className={css.modalItem}>
+					<p className={css.modalTitle}>Author</p>
+					<p className={css.modalContent}>{image.user.name}</p>
 				</li>
-				<li className={css.infoItem}>
-					<h className={css.itemTitle}>Date</h>
-					<p className={css.itemContent}>{image.created_at}</p>
+				<li className={css.modalItem}>
+					<p className={css.modalTitle}>Date</p>
+					<p className={css.modalContent}>{formattedDate}</p>
 				</li>
-				<li className={css.infoItem}>
-					<h className={css.itemTitle}>Likes</h>
-					<p className={css.itemContent}>{image.likes}</p>
+				<li className={css.modalItem}>
+					<p className={css.modalTitle}>Likes</p>
+					<p className={css.modalContent}>{image.likes}</p>
 				</li>
 			</ul>
 		</div>

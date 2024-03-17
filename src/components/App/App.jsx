@@ -7,20 +7,11 @@ import SearchBar from "../SearchBar/SearchBar";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import ImageModal from "../ImageModal/ImageModal";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import ScrollToTop from "../ScrollToTop/ScrollToTop";
 
 axios.defaults.baseURL = "https://api.unsplash.com/search/";
 const ACCESS_KEY = "6ISQi9M4rNBkl7LU8EVOjyrOACzSzwqNAvY8Ysl6IZo";
 Modal.setAppElement("#root");
-const customStyles = {
-	content: {
-		top: "50%",
-		left: "50%",
-		right: "auto",
-		bottom: "auto",
-		marginRight: "-50%",
-		transform: "translate(-50%, -50%)",
-	},
-};
 
 const App = () => {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -30,10 +21,10 @@ const App = () => {
 	const [imageGallery, setImageGallery] = useState([]);
 	const [errorMessage, setErrorMessage] = useState("");
 	const [queryPage, setQueryPage] = useState(1);
-	const [currentQuery, setCurrentQuery] = useState("");
 	const [totalPages, setTotalPages] = useState(0);
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(null);
+	const [isScrollToTop, setScrollToTop] = useState(false);
 	const perPage = 28;
 
 	useEffect(() => {
@@ -43,10 +34,7 @@ const App = () => {
 				setIsError(false);
 				setIsLoading(true);
 				setIsLoadMore(false);
-				if (currentQuery !== searchQuery) {
-					setImageGallery([]);
-					setQueryPage(1);
-				}
+
 				const data = await axios.get("photos", {
 					params: { client_id: ACCESS_KEY, query: searchQuery, page: queryPage, per_page: perPage, orientation: "squarish" },
 				});
@@ -69,11 +57,12 @@ const App = () => {
 		}
 
 		fetchImages();
-	}, [searchQuery, queryPage, currentQuery, perPage, totalPages]);
+	}, [searchQuery, queryPage, perPage, totalPages]);
 
 	const onSetSearchQuery = (query) => {
+		setImageGallery([]);
+		setQueryPage(1);
 		setSearchQuery(query);
-		setCurrentQuery(query);
 	};
 
 	const handleLoadMore = () => {
@@ -89,15 +78,62 @@ const App = () => {
 		setIsOpen(false);
 	}
 
+	useEffect(() => {
+		window.addEventListener("scroll", () => {
+			if (window.scrollY > 200) {
+				setScrollToTop(true);
+			} else {
+				setScrollToTop(false);
+			}
+		});
+	}, []);
+
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth",
+		});
+	};
+
 	return (
 		<>
 			<SearchBar onSetSearchQuery={onSetSearchQuery} />
 			{isLoading && <Loader />}
 			{!isError ? <ImageGallery imageGallery={imageGallery} openModal={openModal} /> : <ErrorMessage message={errorMessage} />}
-			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
+			<Modal
+				isOpen={modalIsOpen}
+				onRequestClose={closeModal}
+				style={{
+					overlay: {
+						position: "fixed",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						backgroundColor: "rgba(99, 136, 137, 0.95)",
+					},
+					content: {
+						position: "absolute",
+						top: "50%",
+						left: "50%",
+						right: "auto",
+						bottom: "auto",
+						marginRight: "-50%",
+						transform: "translate(-50%, -50%)",
+
+						// border: "1px solid #f9efdb",
+						background: "rgba(249, 239, 219, 0.85)",
+						overflow: "hidden",
+						WebkitOverflowScrolling: "touch",
+						borderRadius: "20px",
+						outline: "none",
+					},
+				}}
+			>
 				{modalIsOpen && <ImageModal image={selectedImage} />}
 			</Modal>
 			{isLoadMore && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
+			{isScrollToTop && <ScrollToTop scrollToTop={scrollToTop} />}
 		</>
 	);
 };

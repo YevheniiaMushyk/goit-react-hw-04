@@ -1,0 +1,40 @@
+.modalContainer {
+	display: flex;
+	flex-direction: column;
+	row-gap: 15px;
+	padding: 10px;
+}
+.modalImg {
+	border-radius: 10px;
+	overflow: hidden;
+	object-fit: contain;
+	height: 70vh;
+}
+
+.modalList {
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	column-gap: 10px;
+}
+
+.modalItem {
+	font-family: inherit;
+	box-shadow: 3px 3px 5px 0px rgba(157, 188, 152, 0.75), -3px -3px 5px 0px rgba(157, 188, 152, 0.75);
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.modalTitle {
+	display: flex;
+	justify-content: center;
+	font-weight: 700;
+	color: black;
+}
+
+.modalContent {
+	display: flex;
+	justify-content: center;
+	color: black;
+	text-transform: capitalize;
+}
