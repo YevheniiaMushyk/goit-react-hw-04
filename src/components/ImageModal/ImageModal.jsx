@@ -5,7 +5,7 @@ const ImageModal = ({ image }) => {
 	const date = new Date(dateString);
 	const formattedDate = date.toLocaleDateString();
 	return (
-		<div className={css.modalContainer}>
+		<div tabIndex="-1" id="modal-content" className={css.modalContainer}>
 			<img className={css.modalImg} src={image.urls.regular} alt={image.alt_description} />
 			<ul className={css.modalList}>
 				<li className={css.modalItem}>

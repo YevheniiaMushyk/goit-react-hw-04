@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import ImageGallery from "../ImageGallery/ImageGallery";
@@ -25,7 +25,11 @@ const App = () => {
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [isScrollToTop, setScrollToTop] = useState(false);
-	const perPage = 28;
+	const totalPagesRef = useRef(totalPages);
+
+	useEffect(() => {
+		totalPagesRef.current = totalPages;
+	}, [totalPages]);
 
 	useEffect(() => {
 		if (!searchQuery) return;
@@ -36,7 +40,7 @@ const App = () => {
 				setIsLoadMore(false);
 
 				const data = await axios.get("photos", {
-					params: { client_id: ACCESS_KEY, query: searchQuery, page: queryPage, per_page: perPage, orientation: "squarish" },
+					params: { client_id: ACCESS_KEY, query: searchQuery, page: queryPage, per_page: "28", orientation: "squarish" },
 				});
 				setImageGallery((prevGallery) => [...prevGallery, ...data.data.results]);
 				setTotalPages(data.data.total_pages);
@@ -50,14 +54,14 @@ const App = () => {
 				setErrorMessage(err);
 			} finally {
 				setIsLoading(false);
-				if (queryPage <= totalPages) {
+				if (queryPage <= totalPagesRef.current) {
 					setIsLoadMore(true);
 				}
 			}
 		}
 
 		fetchImages();
-	}, [searchQuery, queryPage, perPage, totalPages]);
+	}, [searchQuery, queryPage, totalPages]);
 
 	const onSetSearchQuery = (query) => {
 		setImageGallery([]);
@@ -78,14 +82,20 @@ const App = () => {
 		setIsOpen(false);
 	}
 
+	function afterOpenModal() {
+		document.getElementById("modal-content")?.focus();
+	}
+
 	useEffect(() => {
-		window.addEventListener("scroll", () => {
+		const handleScroll = () => {
 			if (window.scrollY > 200) {
 				setScrollToTop(true);
 			} else {
 				setScrollToTop(false);
 			}
-		});
+		};
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
 
 	const scrollToTop = () => {
@@ -103,6 +113,9 @@ const App = () => {
 			<Modal
 				isOpen={modalIsOpen}
 				onRequestClose={closeModal}
+				shouldCloseOnEsc={true}
+				onAfterOpen={afterOpenModal}
+				shouldFocusAfterRender={true}
 				style={{
 					overlay: {
 						position: "fixed",
