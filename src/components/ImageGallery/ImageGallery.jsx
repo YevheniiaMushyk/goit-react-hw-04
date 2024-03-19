@@ -8,8 +8,8 @@ const ImageGallery = ({ imageGallery, openModal }) => {
 				Array.isArray(imageGallery) &&
 				imageGallery.map((image, index) => {
 					return (
-						<li className={css.galleryItem} key={`${image.id}_${index}`} onClick={() => openModal(image)}>
-							<ImageCard image={image} />
+						<li className={css.galleryItem} key={`${image.id}_${index}`}>
+							<ImageCard image={image} openModal={openModal} />
 						</li>
 					);
 				})}
