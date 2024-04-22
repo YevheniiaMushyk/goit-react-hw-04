@@ -31,16 +31,17 @@ const App = () => {
 				setIsLoading(true);
 				setIsLoadMore(false);
 
-				const data = await axios.get("photos", {
+				const { data } = await axios.get("photos", {
 					params: { client_id: ACCESS_KEY, query: searchQuery, page: queryPage, per_page: "28", orientation: "squarish" },
 				});
-				setImageGallery((prevGallery) => [...prevGallery, ...data.data.results]);
+				console.log(data);
+				setImageGallery((prevGallery) => [...prevGallery, ...data.results]);
 
-				if (data.data.total <= 0) {
+				if (data.total <= 0) {
 					setIsError(true);
 					setErrorMessage("Sorry, there are no images matching your search query. Please try again!");
 				}
-				if (queryPage <= data.data.total_pages) {
+				if (queryPage <= data.total_pages) {
 					setIsLoadMore(true);
 				}
 			} catch (err) {
